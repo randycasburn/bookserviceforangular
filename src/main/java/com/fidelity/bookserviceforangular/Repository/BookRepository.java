@@ -1,32 +1,28 @@
 package com.fidelity.bookserviceforangular.Repository;
 
 import com.fidelity.bookserviceforangular.model.Book;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class BookRepository {
-    @Autowired
-    Book book;
 
-    private List<Book> books;
-    private long bookId;
+    private List<Book> books =
+            Arrays.asList(new Book("Design Patterns", "Gamma, Helm, Johnson, Vlissides", "covers/9780201633610.jpg", 4),
+                    new Book("UML Distilled", "Martin Fowler", "covers/umldist.jpg", 3),
+                    new Book("Clean Code", "Robert Martin", "covers/cleancode.jpg", 2),
+                    new Book("Cryptonomicon", "Neal Stephenson", "", 1));
+    private long bookId = 4;
 
-    BookRepository(Book book) {
-        books = new ArrayList<Book>();
-        books.add(new Book("Design Patterns", "Gamma, Helm, Johnson, Vlissides", "covers/9780201633610.jpg", 4));
-        books.add(new Book("UML Distilled", "Martin Fowler", "covers/umldist.jpg", 3));
-        books.add(new Book("Clean Code", "Robert Martin", "covers/cleancode.jpg", 2));
-        books.add(new Book("Cryptonomicon", "Neal Stephenson", "", 1));
+    BookRepository(){}
 
-        bookId = 4;
-    }
-
-    public List<Book> getBooks() {
-        return books;
+    public List<Book> getBooks(String title) {
+        return books.stream()
+                .filter(b -> b.getTitle().toLowerCase().contains(title.toLowerCase()))
+                .collect(Collectors.toList());
     }
 
     public Book addBook(Book book) {
