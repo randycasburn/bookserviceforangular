@@ -16,14 +16,16 @@ public class BookController {
         this.repo = repo;
     }
 
+
     @GetMapping
     public List<Book> queryBooksByTitle(@RequestParam(defaultValue = "") String title ) {
         return repo.getBooks(title);
     }
 
-    @PostMapping
+    @PostMapping("")
     public Book addBook(@RequestBody Book book) {
         return repo.addBook(book);
     }
+
 
 }
